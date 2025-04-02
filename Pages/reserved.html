@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Silvester's Tea Services</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            color: black;
+            background-color: #faf3e0;
+            position: relative;
+        }
+        header {
+            background-color: #3A5F0B;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo img {
+            max-width: 50px;
+            margin-left: 15px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(12, 2fr);
+            gap: 3px;
+            margin-top: 300px;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .gallery-item {
+            background: transparent;
+            padding: 2px;
+            border-radius: 5px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            width: 80px;
+            cursor: pointer;
+            font-size: 8px;
+            font-weight: normal;
+            color: black;
+            font-family: 'Roboto', sans-serif;
+        }
+        .gallery-item img {
+            width: 75px;
+            height: 50px;
+            border-radius: 8px;
+        }
+        .order-btn {
+            display: block;
+            background-color: #3A5F0B;
+            color: white;
+            text-decoration: italic;
+            padding: 2px 10px;
+            margin-top: 2px;
+            border-radius: 5px;
+            font-size: 2px;
+        }
+        .order-btn:hover {
+            background-color: #2d4a08;
+        }
+    </style>
+    <script>
+       function redirectToOrder(name, image, price){
+            window.location.href = `order.html?name=${encodeURIComponent(name)}&image=${encodeURIComponent(image)}&price=${encodeURIComponent(price)}`;
+        }
+    </script>
+</head>
+<body>
+    <video class="video-background" autoplay loop muted>
+        <source src="coffee-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <header>
+        <div class="logo">
+            <img src="tealogo.jpg" alt="Silvester's Tea Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="container">
+        <h2>Our Premium Tea Selection</h2>
+        <div class="gallery">
+
+            <div class="gallery-item" onclick="redirectToOrder('Green Tea', 'tea.jpg', '₹35')"><img src="tea.jpg" alt="Green Tea"><h3>Green Tea</h3><h3>₹50</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Black Tea', 'tea2.jpg', '₹20')"><img src="tea2.jpg" alt="Black Tea"><h3>Black Tea</h3><h3>₹20</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Exotic Tea', 'tea3.jpg', '₹35')"><img src="tea3.jpg" alt="Exotic Tea"><h3>Exotic Tea</h3><h3>₹35</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Black Coffee', 'tea4.jpg', '30')"><img src="tea4.jpg" alt="Black Coffee"><h3>Black Coffee</h3><h3>₹30</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Coffee Tea', tea7.jpg)"><img src="tea7.jpg" alt="Coffee Tea"><h3>Coffee Tea</h3><h3>₹45</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Blend Green Tea', tea6.jpg)"><img src="tea6.jpg" alt="Blend Green Tea"><h3>Blend Green Tea</h3><h3>₹40</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Espresso','Espresso.jpg', '₹47')"><img src="Espresso.jpg" alt="Espresso"><h3>Espresso</h3><h3>₹47</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Ice Coffee', 'ice-coffee.jpg', '₹50' )"><img src="ice-coffee.jpg" alt="Ice Coffee"><h3>Ice Coffee</h3><h3>₹50</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Irish Tea', 'tea10.jpg', '₹25' )"><img src="tea10.jpg" alt="Irish Tea"><h3>Irish Tea</h3><h3>₹25</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Mocha Coffee', 'Mocha_coffee.jpg', '₹35')"><img src="Mocha_coffee.jpg" alt="Mocha Coffee"><h3>Mocha Coffee</h3><h3>₹35</h3></div> 
+            <div class="gallery-item" onclick="redirectToOrder('Frappe Tea', 'frappe.jpg', '₹34')"><img src="frappe.jpg" alt="Frappe Tea"><h3>Frappe Tea</h3><h3>₹34</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Flat White', 'Flat-white.jpg', '₹15')"><img src="Flat-white.jpg" alt="Flat White"><h3>Flat White</h3><h3>₹15</h3></div>
+
+           <div class="gallery-item" onclick="redirectToOrder('Green Tea', 'tea.jpg', '₹35')"><img src="tea.jpg" alt="Green Tea"><h3>Green Tea</h3><h3>₹50</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Black Tea', 'tea2.jpg', '₹20')"><img src="tea2.jpg" alt="Black Tea"><h3>Black Tea</h3><h3>₹20</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Exotic Tea', 'tea3.jpg', '₹35')"><img src="tea3.jpg" alt="Exotic Tea"><h3>Exotic Tea</h3><h3>₹35</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Black Coffee', 'tea4.jpg', '30')"><img src="tea4.jpg" alt="Black Coffee"><h3>Black Coffee</h3><h3>₹30</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Coffee Tea', tea7.jpg)"><img src="tea7.jpg" alt="Coffee Tea"><h3>Coffee Tea</h3><p>₹45</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Blend Green Tea', tea6.jpg)"><img src="tea6.jpg" alt="Blend Green Tea"><h3>Blend Green Tea</h3><h3>₹40</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Espresso','Espresso.jpg', '₹47')"><img src="Espresso.jpg" alt="Espresso"><h3>Espresso</h3><h3>₹47</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Ice Coffee', 'ice-coffee.jpg', '₹50' )"><img src="ice-coffee.jpg" alt="Ice Coffee"><h3>Ice Coffee</h3><h3>₹50</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Irish Tea', 'tea10.jpg', '₹25' )"><img src="tea10.jpg" alt="Irish Tea"><h3>Irish Tea</h3><h3>₹25</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Mocha Coffee', 'Mocha_coffee.jpg', '₹35')"><img src="Mocha_coffee.jpg" alt="Mocha Coffee"><h3>Mocha Coffee</h3><h3>₹35</h3></div> 
+            <div class="gallery-item" onclick="redirectToOrder('Frappe Tea', 'frappe.jpg', '₹34')"><img src="frappe.jpg" alt="Frappe Tea"><h3>Frappe Tea</h3><h3>₹34</h3></div>
+            <div class="gallery-item" onclick="redirectToOrder('Flat White', 'Flat-white.jpg', '₹15')"><img src="Flat-white.jpg" alt="Flat White"><h3>Flat White</h3><h3>₹15</h3></div>
+
+        </div>
+    </section>
+</body>
+</html>

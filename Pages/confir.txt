@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch user details from localStorage
+            const userDetails = ["clientName", "clientGender", "clientAddress", "clientEmail", "clientContact", "clientPayment"];
+            userDetails.forEach(detail => {
+                document.getElementById(`summary-${detail}`).innerText = localStorage.getItem(detail) || "Not provided";
+            });
+
+            // Fetch cart items
+            const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartSummary = document.getElementById("summary-brews");
+            cartSummary.innerHTML = "";
+
+            if (cartItems.length > 0) {
+                cartItems.forEach(item => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" width="50" style="border-radius:5px;"> 
+                        <strong>${item.name}</strong> - ${item.price || "Price not available"}
+                    `;
+                    cartSummary.appendChild(listItem);
+                });
+            } else {
+                cartSummary.innerHTML = "<li>No brews selected</li>";
+            }
+        });
+
+        function confirmOrder() {
+            alert("Order confirmed! Thank you for your purchase.");
+            localStorage.clear(); // Clears all stored data
+            window.location.href = "thankyou.html";
+        }
+
+        function goBack() {
+            window.location.href = "order.html";
+        }
+
+        function cancelOrder() {
+            alert("Order has been canceled.");
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: wheat;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: black;
+        }
+        button {
+            background: #ff5e62;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #e14d50;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #f8f8f8;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        img {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Confirm Your Order</h2>
+        <p><strong>Name:</strong> <span id="summary-clientName"></span></p>
+        <p><strong>Gender:</strong> <span id="summary-clientGender"></span></p>
+        <p><strong>Address:</strong> <span id="summary-clientAddress"></span></p>
+        <p><strong>Email:</strong> <span id="summary-clientEmail"></span></p>
+        <p><strong>Contact:</strong> <span id="summary-clientContact"></span></p>
+        <p><strong>Brews Selected:</strong></p>
+        <ul id="summary-brews"></ul>
+        <p><strong>Payment Method:</strong> <span id="summary-clientPayment"></span></p>
+        
+        <button onclick="confirmOrder()">Confirm & Continue</button>
+        <button onclick="goBack()">Go Back</button>
+        <button onclick="cancelOrder()">Cancel Order</button>
+    </div>
+</body>
+</html>

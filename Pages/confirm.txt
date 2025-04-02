@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Your Brew</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            emailjs.init("p9BmUatJO9Nn3Dmaw");
+
+            const name = localStorage.getItem("teaName");
+            const image = localStorage.getItem("teaImage");
+            const price = localStorage.getItem("teaPrice");
+            const selectedItemImage = document.getElementById("selected-item-image");
+            const selectedItemName = document.getElementById("selected-item-name");
+            const selectedItemPrice = document.getElementById("selected-item-price");
+
+            if (name && image && price) {
+                selectedItemName.textContent = name;
+                selectedItemPrice.textContent = `Price: ${price}`;
+                selectedItemImage.src = image;
+                selectedItemImage.alt = name;
+            } else {
+                document.getElementById("order-container").innerHTML = "<p>No item selected.</p>";
+            }
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartContainer = document.getElementById("cart-items");
+
+            function renderCart() {
+                cartContainer.innerHTML = cart.map((item, index) => `
+                    <div>
+                        <p>${item.name} - ${item.price} 
+                        <img src="${item.image}" width="50"> 
+                        <button class="remove-btn" data-index="${index}">Remove</button></p>
+                    </div>
+                `).join("");
+            }
+
+            document.getElementById("add-to-cart").addEventListener("click", function () {
+                if (name && price && image) {
+                    cart.push({ name, price, image });
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    renderCart();
+
+                    const notification = document.getElementById("notification");
+                    notification.style.display = "block";
+                    setTimeout(() => { notification.style.display = "none"; }, 2000);
+                }
+            });
+
+            cartContainer.addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-btn")) {
+                    const index = event.target.dataset.index;
+                    cart.splice(index, 1);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    renderCart();
+                }
+            });
+
+            renderCart();
+
+            ["name", "email", "address", "contact"].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.value = localStorage.getItem(`client${id.charAt(0).toUpperCase() + id.slice(1)}`) || "";
+                    input.addEventListener("input", () => localStorage.setItem(`client${id.charAt(0).toUpperCase() + id.slice(1)}`, input.value));
+                }
+            });
+
+            document.getElementById("order-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                
+                const orderData = {
+                    clientName: document.getElementById("name").value,
+                    clientGender: document.getElementById("gender").value,
+                    clientEmail: document.getElementById("email").value,
+                    clientAddress: document.getElementById("address").value,
+                    clientContact: document.getElementById("contact").value,
+                    paymentMethod: document.getElementById("payment-method").value,
+                    cart: cart
+                };
+
+                localStorage.setItem("orderDetails", JSON.stringify(orderData));
+                window.location.href = "confirm.html";
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            color: black;
+        }
+        nav {
+            background: green;
+            padding: 15px;
+            font-size: 18px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .cart-container {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin: 10px 0;
+        }
+        .cart-container button {
+            margin-left: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #confirm-button {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #confirm-button:hover {
+            background: #218838;
+        }
+        #more-items {
+            background: blue;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Services</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+    <div class="container" style="margin-top: 70px;">
+        <h2>Order Your Brew</h2>
+        <div class="selected-brew">
+            <img id="selected-item-image" src="" alt="Selected Item">
+            <h3 id="selected-item-name"></h3>
+            <p id="selected-item-price"></p>
+            <button id="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="cart-container">
+            <h3>Your Cart</h3>
+            <div id="cart-items"></div>
+        </div>
+        <button id="more-items" onclick="window.location.href='index.html';">Add More Items</button>
+        <form id="order-form">
+             <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="gender">Gender:</label>
+            <select id="gender"><option value="Male">Male</option><option value="Female">Female</option></select>
+            <label for="address">Address:</label>
+            <input type="text" id="address" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <label for="contact">Contact Number:</label>
+            <input type="tel" id="contact" pattern="[0-9]{10}" required>
+            <label for="payment-method">Payment Method:</label>
+            <select id="payment-method"><option value="paytm">Paytm</option><option value="pay on delivery">Pay on Delivery</option></select>
+        </form
+    </div>
+        <form id="order-form">
+            <input type="submit" id="confirm-button" value="Confirm Order">
+        </form>
+    </div>
+</body>
+</html>
